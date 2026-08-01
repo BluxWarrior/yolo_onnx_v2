@@ -33,12 +33,19 @@ print(f"[yolo_patch] loaded version={YOLO_PATCH_VERSION}", flush=True)
 #   ["balaclava", "hoodie", "glove", "bat", "spray paint", "graffiti"]
 #
 # So these thresholds are:
-#   balaclava=0.44
-#   hoodie=0.45
+#   balaclava=0.38
+#   hoodie=0.38
 #   glove=0.22
-#   bat=0.25
-#   spray paint=0.22
-#   graffiti=0.25
+#   bat=0.12
+#   spray paint=0.33
+#   graffiti=0.2
+# So bonus thresholds are:
+#   balaclava=0.2
+#   hoodie=0.25
+#   glove=0.12
+#   bat=0.09
+#   spray paint=0.21
+#   graffiti=0.06
 # Per-class candidate floors, in MODEL-EMIT order
 #   [balaclava, bat, glove, graffiti, hoodie, spray paint]
 # ALIGNED to the server's _conf_thres_array = [0.38,0.38,0.22,0.12,0.33,0.20]
@@ -47,7 +54,8 @@ print(f"[yolo_patch] loaded version={YOLO_PATCH_VERSION}", flush=True)
 # flipped candidate is only added if the server would also have accepted it,
 # so nothing is appended just to be dropped by the server conf filter, and
 # nothing addable is skipped.
-DEFAULT_CLASS_CONF_LIST = [0.38, 0.12, 0.22, 0.20, 0.38, 0.33]
+DEFAULT_CLASS_CONF_LIST = [0.38, 0.38, 0.22, 0.12, 0.33, 0.20]
+DEFAULT_CLASS_BONUS_LIST = [0.2, 0.25, 0.12, 0.09, 0.21, 0.06]
 
 # Per-class RESCUE BONUS, in MODEL-EMIT order — mirrors the server's
 # _bonus_array = [0.2,0.25,0.12,0.09,0.21,0.06] (server output order
@@ -58,7 +66,6 @@ DEFAULT_CLASS_CONF_LIST = [0.38, 0.12, 0.22, 0.20, 0.38, 0.33]
 # is exact (keeps the survival guarantee airtight) and (b) flipped candidates
 # in the [thr - bonus, thr) band of an absent class are appended instead of
 # skipped — those are exactly the rescue-band boxes that win mAP50.
-DEFAULT_CLASS_BONUS_LIST = [0.2, 0.09, 0.12, 0.06, 0.25, 0.21]
 
 COEFFICIENT_FOR_PATCH = 3/17
 CHECKER_OUTPUT_DRIFT_MAX_PER_TARGET = 2
